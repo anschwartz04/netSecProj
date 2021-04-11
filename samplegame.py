@@ -1,7 +1,7 @@
 import pygame
 
 pygame.init()
-width=350;
+width=350
 height=400
 screen = pygame.display.set_mode( (width, height ) )
 pygame.display.set_caption('clicked on image')
