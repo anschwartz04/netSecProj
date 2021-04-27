@@ -8,14 +8,13 @@ Created on Sun Apr 11 13:38:55 2021
 from image_slicer import slice
 from PIL import Image
 
-path = "C://Users/ansch/Desktop/Nova/ECE/GitRepo/netSecProj/"
-slices = slice(path+"stock-flowers.jpg",4)
+#path = "C://Users/ansch/Desktop/Nova/ECE/GitRepo/netSecProj/"
+slices = slice('sunflower.jpg', 6)
 photoBreak = []
 for row in range(1,3):
     for col in range(1,3):
         # print("row",row,"col",col)
-        photoBreak.append(path+"stock-flowers_0"+str(row)+"_0"+str(col)
-                          +".png")
+        photoBreak.append("sunflower_0"+str(row)+"_0"+str(col)+".png")
 for index in photoBreak:
     img = Image.open(index)
     img.show()
