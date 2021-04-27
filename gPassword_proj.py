@@ -2,19 +2,19 @@ import sys, pygame
 import random
 pygame.init()
 
-def isInList(list1, num):
+def isInList(list1, num):                   #check if a num is in a list
     for x in list1:
         if x == num:
             return True
     return False
 
-def checkLists(list1, list2, length):
+def checkLists(list1, list2, length):       #check if lists match
     for i in range(length):
         if list1[i] != list2[i]:
             return False
     return True
 
-def translator(image_num):
+def translator(image_num):                  #convert image variable to num
     if image_num == image_2x2_1 or image_num == image_2x3_1:
         return 1
     elif image_num == image_2x2_2 or image_num == image_2x3_2:
@@ -27,33 +27,37 @@ def translator(image_num):
         return 5
     elif image_num == image_2x3_6:
         return 6
-
+#fonts
 large_font = pygame.font.SysFont("Times New Roman", 60)
 font = pygame.font.SysFont("Times New Roman", 35)
 smallfont = pygame.font.SysFont("Times New Roman", 28)
 
+#colors
 color_dark = (0, 150, 100)
 color_light = (170, 170, 170)
 color_clicked = (0, 200, 200)
+color = (0, 0, 0)
+color_red = (255, 0, 0)
 
+#screen size
 width = 600
 height = 600
 screen = pygame.display.set_mode((width, height))
 
+#image
 image = pygame.image.load("pictures/sunflower.jpg")
 image = pygame.transform.scale(image, (400, 400))
 
-color = (0, 0, 0)
-color_red = (255, 0, 0)
-
+#some text
 text = font.render("Choose complexity:", True, color)
 fours = font.render("2x2", True, color)
 sixes = font.render("2x3", True, color)
-eights = font.render("2x4", True, color)
 
+#all the windows
 states = ['home', 'full_img_disp', 'img_split_2x2', 'img_split_2x3', 'img_split_2x4', 'log_in']
 curr_state = states[0]
 
+#states for text and images
 img_states = ['on', 'off']
 img1 = img_states[0]
 img2 = img_states[0]
@@ -66,11 +70,12 @@ next_button_state = img_states[1]
 logged_in_state = img_states[1]
 try_again_state = img_states[1]
 
+#attempt counter
 ATTEMPTS = 4
 bottom_words = "Try again! "+str(ATTEMPTS)
 
-password_seq = []
-check_password_seq = []
+password_seq = []           #store new password
+check_password_seq = []     #store log in password
 
 #images
 image_2x2_1 = pygame.image.load("2x2/sunflower_01_01.png")
@@ -95,6 +100,7 @@ image_2x3_5 = pygame.transform.scale(image_2x3_5, (133,200))
 image_2x3_6 = pygame.image.load("2x3/sunflower_02_03.png")
 image_2x3_6 = pygame.transform.scale(image_2x3_6, (133,200))
 
+#image arrays
 image_order_2x2 = [image_2x2_1, image_2x2_2, image_2x2_3, image_2x2_4]
 image_order_2x3 = [image_2x3_1, image_2x3_2, image_2x3_3, image_2x3_4, image_2x3_5, image_2x3_6]
 random.shuffle(image_order_2x2)
@@ -109,13 +115,13 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if curr_state == 'home':
-                #log in
+                #log in button
                 if 100-5 <= mouse[0] <= 100+130-5 and 300-5 <= mouse[1] <= 300+50-5:
                     if not password_seq:
                         error_state = img_states[0]
                     else:
                         curr_state = states[5]
-                #create new password
+                #create new password button
                 if 100-5 <= mouse[0] <= 100+350-5 and 400-5 <= mouse[1] <= 400+50-5:
                     ATTEMPTS = 4
                     try_again_state = img_states[1]
@@ -290,18 +296,23 @@ while True:
                     img4 = img_states[0]
                     img5 = img_states[0]
                     img6 = img_states[0]
-
+        
+    #mouse
     mouse = pygame.mouse.get_pos()
 
+    #different windows
     if curr_state == 'home':
-        if 100-5 <= mouse[0] <= 100+130-5 and 300-5 <= mouse[1] <= 300+50-5:
-            pygame.draw.rect(screen, color_light, [100-5, 300-5, 130, 50])
+        #log in button
+        if 100-5 <= mouse[0] <= 100+110-5 and 300-5 <= mouse[1] <= 300+50-5:
+            pygame.draw.rect(screen, color_light, [100-5, 300-5, 110, 50])
         else:
-            pygame.draw.rect(screen, color_dark, [100-5, 300-5, 130, 50])
-        if 100-5 <= mouse[0] <= 100+350-5 and 400-5 <= mouse[1] <= 400+50-5:
-            pygame.draw.rect(screen, color_light, [100-5, 400-5, 350, 50])
+            pygame.draw.rect(screen, color_dark, [100-5, 300-5, 110, 50])
+        #create new password button
+        if 100-5 <= mouse[0] <= 100+320-5 and 400-5 <= mouse[1] <= 400+50-5:
+            pygame.draw.rect(screen, color_light, [100-5, 400-5, 320, 50])
         else:
-            pygame.draw.rect(screen, color_dark, [100-5, 400-5, 350, 50])
+            pygame.draw.rect(screen, color_dark, [100-5, 400-5, 320, 50])
+        #window text
         welcome_text = large_font.render("Welcome!", True, color)
         inst_text = font.render("Log In", True, color)
         create_text = font.render("Create new password", True, color)
@@ -309,6 +320,7 @@ while True:
         screen.blit(welcome_text, (100, 100))
         screen.blit(inst_text, (100, 300))
         screen.blit(create_text, (100, 400))
+        #error message
         if error_state == 'on':
             screen.blit(error_text, (100, 500))
     
@@ -366,15 +378,10 @@ while True:
             pygame.draw.rect(screen, color_light, [10+100, 50, 65, 40])
         else:
             pygame.draw.rect(screen, color_dark, [10+100, 50, 65, 40])
-        if 10+100+100 <= mouse [0] <= 10+100+65+100 and 50 <= mouse[1] <= 50+40:
-            pygame.draw.rect(screen, color_light, [10+100+100, 50, 65, 40])
-        else:
-            pygame.draw.rect(screen, color_dark, [10+100+100, 50, 65, 40])
         #text and complexities
         screen.blit(text, (15, 0))
         screen.blit(fours, (15, 50))
         screen.blit(sixes, (15+100, 50))
-        screen.blit(eights, (15+100+100, 50))
         #back button
         if 10-5 <= mouse[0] <= 10-5+90 and 500-5 <= mouse[1] <= 500-5+50:
             pygame.draw.rect(screen, color_light, [10-5, 500-5, 90, 50])
@@ -385,7 +392,8 @@ while True:
 
     elif curr_state == 'img_split_2x2':
         #selected button
-        pygame.draw.rect(screen, color_clicked, [5, 50, 65, 40])
+        pygame.draw.rect(screen, color_clicked, [10, 50, 65, 40])
+        #img slices
         if img1 == 'on':
             screen.blit(image_2x2_1, (100, 150))
             if 100 <= mouse[0] <= 100+200 and 150 <= mouse[1] <= 150+200:
@@ -419,7 +427,6 @@ while True:
         screen.blit(text, (15, 0))
         screen.blit(fours, (15, 50))
         screen.blit(sixes, (15+100, 50))
-        screen.blit(eights, (15+100+100, 50))
         #next button
         if next_button_state == 'on':
             if 500-5 <= mouse[0] <= 500-5+90 and 500-5 <= mouse[1] <= 500-5+50:
@@ -432,6 +439,7 @@ while True:
     elif curr_state == 'img_split_2x3':
         #selected button
         pygame.draw.rect(screen, color_clicked, [10+100, 50, 65, 40])
+        #img slices
         if img1 == 'on':
             screen.blit(image_2x3_1, (100, 150))
             if 100 <= mouse[0] <= 100+133 and 150 <= mouse[1] <= 150+200:
@@ -479,7 +487,6 @@ while True:
         screen.blit(text, (15, 0))
         screen.blit(fours, (15, 50))
         screen.blit(sixes, (15+100, 50))
-        screen.blit(eights, (15+100+100, 50))
         #next button
         if next_button_state == 'on':
             if 500-5 <= mouse[0] <= 500-5+90 and 500-5 <= mouse[1] <= 500-5+50:
@@ -488,7 +495,7 @@ while True:
                 pygame.draw.rect(screen, color_dark, [500-5, 500-5, 90, 50])
             back_text = font.render("Next", True, color)
             screen.blit(back_text, (500, 500))
-
+            
     else:
         text = font.render("error", True, color)
         screen.blit(text, (300,300))

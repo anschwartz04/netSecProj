@@ -9,10 +9,10 @@ from image_slicer import slice
 from PIL import Image
 
 #path = "C://Users/ansch/Desktop/Nova/ECE/GitRepo/netSecProj/"
-slices = slice('sunflower.jpg', 6)
+slices = slice('sunflower.jpg', 8)
 photoBreak = []
-for row in range(1,3):
-    for col in range(1,3):
+for row in range(1,2):
+    for col in range(1,4):
         # print("row",row,"col",col)
         photoBreak.append("sunflower_0"+str(row)+"_0"+str(col)+".png")
 for index in photoBreak:
